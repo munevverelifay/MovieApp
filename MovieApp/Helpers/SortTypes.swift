@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum SortTypes {
+    case sort
+    case reverseSort
+    case sortYear
+    case reverseSortYear
+}

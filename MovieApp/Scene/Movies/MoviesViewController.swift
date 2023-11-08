@@ -7,22 +7,12 @@
 
 import UIKit
 
-enum SortEnum {
-    case sort
-    case reverseSort
-    case sortYear
-    case reverseSortYear
-}
-
-class MoviesViewController: UIViewController, MovieViewModelOutput {
+class MoviesViewController: UIViewController {
 
     private let viewModel: MoviesViewModel
-    
-    var movies : MoviesData?
-    
-    var originalMoviesArray: [Search?] = []
-
-    var moviesArray : [Search?] = [] {
+    private var movies : MoviesData?
+    private var originalMoviesArray: [Search?] = []
+    private var moviesArray : [Search?] = [] {
         didSet {
             sortMovies = originalMoviesArray
             reverseMovies = sortMovies.reversed()
@@ -37,44 +27,13 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
         }
     }
     
-    var currentSortEnum: SortEnum = .sort
-    var sortMovies: [Search?] = []
-    var reverseMovies: [Search?] = []
-    var sortYearsMovies: [Search?] = []
-    var reverseYearsMovies: [Search?] = []
-    
+    private var currentSortEnum: SortTypes = .sort
+    private var sortMovies: [Search?] = []
+    private var reverseMovies: [Search?] = []
+    private var sortYearsMovies: [Search?] = []
+    private var reverseYearsMovies: [Search?] = []
     
     var page : Int = 1
-    
-    func updateView(movies: MoviesData?) {
-        DispatchQueue.main.async {
-            self.errorLabel.text = ""
-            self.errorLabel.isHidden = true
-            self.movies = movies
-            if movies?.search?.count != 0 {
-                if let search = movies?.search {
-                    self.originalMoviesArray.append(contentsOf: search)
-                    self.moviesArray.append(contentsOf: search)
-                }
-            } else {
-                self.originalMoviesArray = []
-                self.moviesArray = []
-            }
-            self.moviesCollectionView.reloadData()
-        }
-    }
-    
-    func updateErrorView(error: String?) {
-        DispatchQueue.main.async {
-            if let error {
-                self.errorLabel.isHidden = false
-                self.originalMoviesArray = []
-                self.moviesArray = []
-                self.moviesCollectionView.reloadData()
-                self.errorLabel.text = error
-            }
-        }
-    }
     
     private let searchController = UISearchController(searchResultsController: nil)
     private var isSearched = false
@@ -128,7 +87,6 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // <#Description#>
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -147,21 +105,18 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
     }
     
     func setUpNavigation(){
-        title = "Home"
+        title = "MovieApp"
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
 //        navigationController?.navigationBar.isHidden = false
     }
     
     func setUpConstrains() {
-        
         moviesCollectionView.delegate = self
         moviesCollectionView.dataSource = self
         moviesCollectionView.isScrollEnabled = true
         moviesCollectionView.showsVerticalScrollIndicator = false
-        
         NSLayoutConstraint.activate([
-     
             navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: -(WindowConstant.getTopPadding + 91)),
@@ -172,8 +127,6 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
             moviesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
-
         ])
     }
     
@@ -239,7 +192,7 @@ extension MoviesViewController : UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as? MovieCell else {
-            fatalError("Hücre oluşturulamadı")
+            return UICollectionViewCell()
         }
         if indexPath.item == moviesArray.count - 3 {
             self.page += 1
@@ -270,7 +223,38 @@ extension MoviesViewController : UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-extension MoviesViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate{
+extension MoviesViewController : MovieViewModelOutput {
+    func updateView(movies: MoviesData?) {
+        DispatchQueue.main.async {
+            self.errorLabel.isHidden = true
+            self.movies = movies
+            if movies?.search?.count != 0 {
+                if let search = movies?.search {
+                    self.originalMoviesArray.append(contentsOf: search)
+                    self.moviesArray.append(contentsOf: search)
+                }
+            } else {
+                self.originalMoviesArray = []
+                self.moviesArray = []
+            }
+            self.moviesCollectionView.reloadData()
+        }
+    }
+    
+    func updateErrorView(error: String?) {
+        DispatchQueue.main.async {
+            if let error {
+                self.errorLabel.isHidden = false
+                self.originalMoviesArray = []
+                self.moviesArray = []
+                self.moviesCollectionView.reloadData()
+                self.errorLabel.text = error
+            }
+        }
+    }
+}
+
+extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let count = searchController.searchBar.text?.count {
             if searchController.searchBar.text != "", count > 2{
@@ -306,7 +290,9 @@ extension MoviesViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
             }
         }
     }
-    
+}
+
+extension MoviesViewController: UISearchBarDelegate, UISearchControllerDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == "" {
             isSearched = false
@@ -325,3 +311,4 @@ extension MoviesViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
         }
     }
 }
+

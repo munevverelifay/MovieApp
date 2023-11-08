@@ -15,7 +15,7 @@ protocol MoviesService {
 
 class APIManager : MoviesService {
     
-    func fetchMovies(page: String?, completion: @escaping (Result<MoviesData, CustomError>) -> ()) { //bunu düzelt error vs
+    func fetchMovies(page: String?, completion: @escaping (Result<MoviesData, CustomError>) -> ()) {
         guard let page else {
             return completion(.failure(.parameterError))
         }

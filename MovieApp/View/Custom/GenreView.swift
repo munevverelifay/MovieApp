@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GenreView : UIView {
+final class GenreView : UIView {
  
     private let genreLabel: UILabel = {
         let label = UILabel()
@@ -18,6 +18,7 @@ class GenreView : UIView {
         label.numberOfLines = 0
         return label
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .typeView
@@ -25,6 +26,7 @@ class GenreView : UIView {
         self.layer.cornerRadius = 10
         
     }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
@@ -46,6 +48,4 @@ class GenreView : UIView {
         genreLabel.text = labelText
         setNeedsLayout()
     }
-    
-    
 }

@@ -9,9 +9,10 @@ import UIKit
 import Kingfisher
 
 class MovieCell: UICollectionViewCell {
-    static let cellIdentifier = "MovieCell"
     
-    let genreLabels = ["Type 1", "Type 2", "Type 3"]
+    static let cellIdentifier = String(describing: MovieCell.self)
+    
+//    let genreLabels = ["Type 1", "Type 2", "Type 3"]
     var cellData: Search? {
         didSet {
             guard let search = cellData else { return }
@@ -26,7 +27,6 @@ class MovieCell: UICollectionViewCell {
             if let url = URL(string: search.poster ?? "") {
                 moviePosterImageView.kf.setImage(with: url)
             }
-            
         }
     }
     
@@ -47,6 +47,7 @@ class MovieCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 8
         return imageView
     }()
+    
     private let movieNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +83,7 @@ class MovieCell: UICollectionViewCell {
         configure()
         setUpConstrains()
     }
+    
     func configure() {
         addSubview(moviePosterImageView)
         addSubview(movieNameLabel)

@@ -7,12 +7,14 @@
 
 import Foundation
 
+protocol MovieViewModelOutput {
+    func updateView(movies: MoviesData?)
+    func updateErrorView(error: String?)
+}
+
 class MoviesViewModel {
 
-    //dependency injection
     private let moviesService : MoviesService
-    
-    //delegate pattern
     var delegate : MovieViewModelOutput?
     
     init(moviesService: MoviesService) {
@@ -26,7 +28,6 @@ class MoviesViewModel {
                 self.delegate?.updateView(movies: movies)
             case .failure(_):
                 print("a")
-                
             }
         }
     }

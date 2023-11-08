@@ -7,29 +7,28 @@
 
 import Foundation
 
+protocol MovieDetailViewModelOutput {
+//    func updateView(title: String, released : String, poster: String, genre: String, runtime: String, director: String, language: String, plot: String, imdbRating: String, actors: String)
+    func updateView(movieDetail: MovieDetailData?)
+}
+
 class MovieDetailViewModel {
 
-    //dependency injection
     private let moviesService : MoviesService
-    
-    //delegate pattern
     var delegate : MovieDetailViewModelOutput?
     
     init(moviesService: MoviesService) {
         self.moviesService = moviesService
     }
-//    func setIMDbID(_ imdbID: String) {
-//        self.imdbID = imdbID
-//    }
-//    
+    
     func fetchMovieDetail(id: String?) {
         moviesService.fetchMovieDetails(id: id) { result in
             switch result {
             case .success(let movieDetail):
-                self.delegate?.updateView(title: movieDetail.title, released: movieDetail.released, poster: movieDetail.poster, genre: movieDetail.genre, runtime: movieDetail.runtime, director: movieDetail.director, language: movieDetail.language, plot: movieDetail.plot, imdbRating: movieDetail.imdbRating, actors: movieDetail.actors)
+//                self.delegate?.updateView(title: movieDetail.title, released: movieDetail.released, poster: movieDetail.poster, genre: movieDetail.genre, runtime: movieDetail.runtime, director: movieDetail.director, language: movieDetail.language, plot: movieDetail.plot, imdbRating: movieDetail.imdbRating, actors: movieDetail.actors)
+                self.delegate?.updateView(movieDetail: movieDetail)
             case .failure(_):
                 print("a")
-                
             }
         }
     }

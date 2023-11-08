@@ -7,37 +7,15 @@
 
 import UIKit
 
-class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScrollViewDelegate {
+class DetailViewController : UIViewController, UIScrollViewDelegate {
     
-    func updateView(title: String, released: String, poster: String, genre: String, runtime: String, director: String, language: String, plot: String, imdbRating: String, actors: String) {
-        DispatchQueue.main.async {
-            if let url = URL(string: poster) {
-                self.moviePosterImageView.kf.setImage(with: url)
-            }
-            self.movieNameLabel.text = title
-            let ratingText = self.createCustomAttributedString(iconColor: .star, labelColor: .infoText, icon: "★", font: AppFonts.infoRegularFont, text: " \(imdbRating)/10 IMDb")
-            self.movieRatingLabel.attributedText = ratingText
-            self.updateGenreLabels(genre)
-            self.infoStringArray.append(runtime)
-            self.infoStringArray.append(released)
-            self.infoStringArray.append(language)
-            self.labelCreate()
-            self.desValueLabel.text = plot
-            self.actorValueLabel.text = actors
-            self.directorValueLabel.text = director
-            self.adjustScrollViewHeight()
-        }
-    }
-    var genreViews = [UIView]()
-    var genreLabels : [String] = []
-
-    var infoLabels = [UILabel]()
-    var infoStringArray : [String] = []
+    private var genreViews = [UIView]()
+    private var genreLabels : [String] = []
+    private var infoLabels = [UILabel]()
+    private var infoStringArray : [String] = []
     private var totalContentHeight: CGFloat = 0
     
-
     private let viewModel: MovieDetailViewModel
-    
     var movieDetail : MovieDetailData?
     
     init(viewModel: MovieDetailViewModel, imdbID: String) {
@@ -55,6 +33,7 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
+    
     private let contentView = UIView()
     
     private let navigationView : UIView = {
@@ -64,7 +43,6 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
         return navigationView
     }()
 
-    
     private let moviePosterImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -120,6 +98,14 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
         stackView.spacing = 8
         return stackView
     }()
+    
+    let dividerView: UIView = {
+        let dividerView = UIView()
+        dividerView.translatesAutoresizingMaskIntoConstraints = false
+        dividerView.backgroundColor = UIColor.systemGray3
+        return dividerView
+    }()
+    
     private let desLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -158,7 +144,6 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
         label.numberOfLines = 0
         return label
     }()
-    
     private let directorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -178,42 +163,45 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
         label.numberOfLines = 0
         return label
     }()
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.delegate = self
-        scrollView.addSubview(contentView)
+        configureAddSubview()
+        setUpConstrains()
+        setUpNavigation()
+        self.adjustScrollViewHeight()
+    }
+    
+    func setUpNavigation(){
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func configureAddSubview() {
         view.addSubview(navigationView)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-     
-        view.backgroundColor = .white
+        scrollView.addSubview(contentView)
         contentView.addSubview(moviePosterImageView)
         contentView.addSubview(movieNameLabel)
         contentView.addSubview(movieRatingLabel)
         contentView.addSubview(genreStackView)
         contentView.addSubview(infoStackView)
         contentView.addSubview(movieInfoStackView)
+        contentView.addSubview(dividerView)
         contentView.addSubview(desLabel)
         contentView.addSubview(desValueLabel)
         contentView.addSubview(actorLabel)
         contentView.addSubview(actorValueLabel)
         contentView.addSubview(directorLabel)
         contentView.addSubview(directorValueLabel)
-        setUpConstrains()
-        setUpNavigation()
-        self.adjustScrollViewHeight()
-        
-    }
-    
-    func setUpNavigation(){
-        title = "Batman"
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.isTranslucent = false
     }
     
     func adjustScrollViewHeight() {
@@ -233,12 +221,12 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
     }
 
     
-    func createCustomAttributedString(iconColor: UIColor, labelColor: UIColor, icon: String, font: UIFont, text: String) -> NSAttributedString {
-        let iconString = NSMutableAttributedString(string: icon, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: iconColor])
-        let textString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: labelColor])
-        iconString.append(textString)
-        return iconString
-    }
+//    func createCustomAttributedString(iconColor: UIColor, labelColor: UIColor, icon: String, font: UIFont, text: String) -> NSAttributedString {
+//        let iconString = NSMutableAttributedString(string: icon, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: iconColor])
+//        let textString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: labelColor])
+//        iconString.append(textString)
+//        return iconString
+//    }
 
     func updateGenreLabels(_ genre: String) {
         genreLabels = []
@@ -295,7 +283,6 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
             contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//            contentView.heightAnchor.constraint(equalToConstant: totalContentHeight),
             
             moviePosterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             moviePosterImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.38),
@@ -317,7 +304,13 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
             infoStackView.leadingAnchor.constraint(equalTo: moviePosterImageView.trailingAnchor, constant: 10),
             infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            desLabel.topAnchor.constraint(equalTo: moviePosterImageView.bottomAnchor, constant: 20),
+            dividerView.topAnchor.constraint(equalTo: moviePosterImageView.bottomAnchor, constant: 10),
+//            dividerView.widthAnchor.constraint(equalToConstant: 1),
+            dividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
+            dividerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            dividerView.heightAnchor.constraint(equalToConstant: 1),
+   
+            desLabel.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 20),
             desLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
             desValueLabel.topAnchor.constraint(equalTo: desLabel.bottomAnchor, constant: 8),
@@ -338,5 +331,33 @@ class DetailViewController : UIViewController, MovieDetailViewModelOutput, UIScr
             directorValueLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             directorValueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
+    }
+}
+
+extension DetailViewController: MovieDetailViewModelOutput {
+    func updateView(movieDetail: MovieDetailData?) {
+        guard let movieDetail = movieDetail else {
+            print("Movie Detail nil gelmiş olur buraya error yazılabilir")
+            return
+        }
+
+        DispatchQueue.main.async {
+            self.title = movieDetail.title
+            if let url = URL(string: movieDetail.poster) {
+                self.moviePosterImageView.kf.setImage(with: url)
+            }
+            self.movieNameLabel.text = movieDetail.title
+            let ratingText = StringHelper.shared.createCustomAttributedString(iconColor: .star, labelColor: .infoText, icon: "★", font: AppFonts.infoRegularFont, text: " \(movieDetail.imdbRating)/10 IMDb")
+            self.movieRatingLabel.attributedText = ratingText
+            self.updateGenreLabels(movieDetail.genre)
+            self.infoStringArray.append(movieDetail.runtime)
+            self.infoStringArray.append(movieDetail.released)
+            self.infoStringArray.append(movieDetail.language)
+            self.labelCreate()
+            self.desValueLabel.text = movieDetail.plot
+            self.actorValueLabel.text = movieDetail.actors
+            self.directorValueLabel.text = movieDetail.director
+            self.adjustScrollViewHeight()
+        }
     }
 }

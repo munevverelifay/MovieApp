@@ -136,7 +136,7 @@ class MockMoviesViewModelOutput: MovieViewModelOutput {
         self.errorMessage = error
     }
 }
-
+//düzelt
 class MockMovieDetailViewModelOutput : MovieDetailViewModelOutput {
     var movieDetailArray : [(title: String, released: String, poster: String, genre: String, runtime: String, director: String, language: String, plot: String, imdbRating: String, actors: String)] = []
     

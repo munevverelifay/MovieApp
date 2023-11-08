@@ -20,7 +20,7 @@ class APIManager : MoviesService {
             return completion(.failure(.parameterError))
         }
         
-        guard let url = URL(string: "https://www.omdbapi.com/?page=\(page)&apikey=e47ab5c5&s=Batman") else {
+        guard let url = URL(string: Constants.Paths.baseURL + Constants.Paths.movieNameSearch + Constants.Paths.movieStandart + Constants.Paths.moviePage + page) else {
             return completion(.failure(.urlError))
         }
         
@@ -73,7 +73,7 @@ class APIManager : MoviesService {
             return completion(.failure(.parameterError))
         }
         
-        guard let url = URL(string: "https://www.omdbapi.com/?page=\(page)&apikey=e47ab5c5&s=\(movie)") else {
+        guard let url = URL(string: Constants.Paths.baseURL + Constants.Paths.movieNameSearch + movie + Constants.Paths.moviePage + page) else {
             return completion(.failure(.urlError))
         }
         

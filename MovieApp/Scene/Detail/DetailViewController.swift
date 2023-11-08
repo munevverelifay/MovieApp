@@ -5,7 +5,7 @@
 //  Created by Münevver Elif Ay on 7.11.2023.
 //
 
-import UIKit
+import UIKit //ekranın ortasına koy loadingi her şeyi gizle sonra aç
 
 class DetailViewController : UIViewController, UIScrollViewDelegate {
     
@@ -25,7 +25,13 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         
         self.viewModel.fetchMovieDetail(id: imdbID)
     }
-
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
@@ -170,6 +176,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadingIndicator.startAnimating()
         view.backgroundColor = .white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.delegate = self
@@ -177,6 +184,11 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         setUpConstrains()
         setUpNavigation()
         self.adjustScrollViewHeight()
+    }
+    
+    func stopLoading() {
+        loadingIndicator.stopAnimating()
+        loadingIndicator.isHidden = true
     }
     
     func setUpNavigation(){
@@ -187,6 +199,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
     func configureAddSubview() {
         view.addSubview(navigationView)
         view.addSubview(scrollView)
+        view.addSubview(loadingIndicator)
         scrollView.addSubview(contentView)
         scrollView.addSubview(contentView)
         contentView.addSubview(moviePosterImageView)
@@ -219,14 +232,6 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
 
         scrollView.contentSize = CGSize(width: contentView.frame.size.width, height: totalContentHeight)
     }
-
-    
-//    func createCustomAttributedString(iconColor: UIColor, labelColor: UIColor, icon: String, font: UIFont, text: String) -> NSAttributedString {
-//        let iconString = NSMutableAttributedString(string: icon, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: iconColor])
-//        let textString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: labelColor])
-//        iconString.append(textString)
-//        return iconString
-//    }
 
     func updateGenreLabels(_ genre: String) {
         genreLabels = []
@@ -358,6 +363,7 @@ extension DetailViewController: MovieDetailViewModelOutput {
             self.actorValueLabel.text = movieDetail.actors
             self.directorValueLabel.text = movieDetail.director
             self.adjustScrollViewHeight()
+            self.stopLoading()
         }
     }
 }

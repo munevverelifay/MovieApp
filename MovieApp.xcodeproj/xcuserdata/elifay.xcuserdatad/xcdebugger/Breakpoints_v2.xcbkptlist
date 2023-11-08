@@ -290,5 +290,68 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E099414A-0D64-465D-AB6F-6EF02B0FEEED"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MovieApp/Scene/Detail/DetailViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "loadingIndicator"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "E099414A-0D64-465D-AB6F-6EF02B0FEEED - 7bb22507aea1c8b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MovieApp.DetailViewController.init(viewModel: MovieApp.MovieDetailViewModel, imdbID: Swift.String) -&gt; MovieApp.DetailViewController"
+                  moduleName = "MovieApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elifay/Desktop/MovieApp/MovieApp/Scene/Detail/DetailViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "744">
+               </Location>
+               <Location
+                  uuid = "E099414A-0D64-465D-AB6F-6EF02B0FEEED - 95220d5aa45356a5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; __C.UIActivityIndicatorView in variable initialization expression of MovieApp.DetailViewController.loadingIndicator : __C.UIActivityIndicatorView"
+                  moduleName = "MovieApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elifay/Desktop/MovieApp/MovieApp/Scene/Detail/DetailViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "E099414A-0D64-465D-AB6F-6EF02B0FEEED - 85946f7888aabd4a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MovieApp.DetailViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;MovieApp.DetailViewController&gt;"
+                  moduleName = "MovieApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/elifay/Desktop/MovieApp/MovieApp/Scene/Detail/DetailViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "732">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

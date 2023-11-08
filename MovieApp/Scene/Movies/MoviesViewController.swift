@@ -37,6 +37,7 @@ class MoviesViewController: UIViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     private var isSearched = false
+    private var isFetchingMovies = false
     private var searchText = ""
     
     private let errorLabel: UILabel = {
@@ -108,7 +109,7 @@ class MoviesViewController: UIViewController {
         title = "MovieApp"
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
-//        navigationController?.navigationBar.isHidden = false
+        //
     }
     
     func setUpConstrains() {
@@ -236,8 +237,10 @@ extension MoviesViewController : MovieViewModelOutput {
             } else {
                 self.originalMoviesArray = []
                 self.moviesArray = []
+                self.page = 1
             }
             self.moviesCollectionView.reloadData()
+            self.isFetchingMovies = false
         }
     }
     
@@ -249,7 +252,9 @@ extension MoviesViewController : MovieViewModelOutput {
                 self.moviesArray = []
                 self.moviesCollectionView.reloadData()
                 self.errorLabel.text = error
+                self.page = 1
             }
+            self.isFetchingMovies = false
         }
     }
 }
@@ -258,11 +263,14 @@ extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let count = searchController.searchBar.text?.count {
             if searchController.searchBar.text != "", count > 2{
-                self.moviesArray = []
-                self.originalMoviesArray = []
-                self.page = 1
-                self.isSearched = true
-                self.viewModel.fetchSerchedMovies(page: String(describing: page), movie: searchController.searchBar.text)
+                if !isFetchingMovies {
+                    isFetchingMovies = true
+                    self.moviesArray = []
+                    self.originalMoviesArray = []
+                    self.page = 1
+                    self.isSearched = true
+                    self.viewModel.fetchSerchedMovies(page: String(describing: page), movie: searchController.searchBar.text)
+                }
             }else if searchController.searchBar.text == ""{
                 if (movies?.error == nil) {
                     if searchText != ""{
@@ -273,12 +281,17 @@ extension MoviesViewController: UISearchResultsUpdating {
                             self.isSearched = true
                             self.moviesArray = []
                             self.originalMoviesArray = []
+                            self.page = 1
                         }
                     } else {
                         self.isSearched = false
                         self.moviesArray = []
                         self.originalMoviesArray = []
-                        self.viewModel.fetchMovies(page: String(describing: page))
+                        self.page = 1
+                        if !isFetchingMovies {
+                            isFetchingMovies = true
+                            self.viewModel.fetchMovies(page: String(describing: page))
+                        }
                     }
                     if moviesArray.isEmpty, originalMoviesArray.isEmpty {
                         

@@ -79,32 +79,6 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
     private let searchController = UISearchController(searchResultsController: nil)
     private var isSearched = false
     private var searchText = ""
-//   
-//    private let filterView: FilterView = {
-//        let view = FilterView()
-//        view.isHidden = true
-//        view.backgroundColor = .orange
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
-    
-//    private lazy var filterButton: UIButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setTitle("Filter", for: .normal) // istersen image yap
-//        button.setTitleColor(.black, for: .normal)
-//        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
-    
-    private let historyLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.isHidden = true
-        label.text = "Son Aramanız: blkalbalba"
-        return label
-    }()
     
     private let errorLabel: UILabel = {
         let label = UILabel()
@@ -146,7 +120,6 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
     
     init(viewModel: MoviesViewModel) {
         self.viewModel = viewModel
-//        self.sortButton = UIButton()
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
     }
@@ -155,7 +128,7 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// <#Description#>
+    // <#Description#>
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -164,13 +137,9 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
         view.addSubview(navigationView)
         view.addSubview(sortButton)
         view.addSubview(errorLabel)
-//        view.addSubview(filterButton)
-//        view.addSubview(filterView)
-        view.addSubview(historyLabel)
         setupSearchController()
         setUpConstrains()
         setUpNavigation()
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -179,7 +148,7 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
     
     func setUpNavigation(){
         title = "Home"
-        navigationController?.navigationBar.barTintColor = .white //navigatipnı değiştir
+        navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
 //        navigationController?.navigationBar.isHidden = false
     }
@@ -197,21 +166,10 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
             navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: -(WindowConstant.getTopPadding + 91)),
             navigationView.heightAnchor.constraint(equalToConstant: WindowConstant.getTopPadding + 91),
-//            sortButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-//            sortButton.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -40),
-//            sortButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            sortButton.heightAnchor.constraint(equalToConstant: view.frame.height * 0.3),
-            historyLabel.topAnchor.constraint(equalTo: view.bottomAnchor),
-            historyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            historyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            moviesCollectionView.topAnchor.constraint(equalTo: historyLabel.bottomAnchor),
+            moviesCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             moviesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             moviesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             moviesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
-//            filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-//            filterView.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -40),
-//            filterView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            filterView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.3),
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
@@ -271,18 +229,6 @@ class MoviesViewController: UIViewController, MovieViewModelOutput {
         moviesCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
     }
     
-//    @objc func filterButtonTapped() {
-//            if filterView.isHidden {
-//                filterView.isHidden = false
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
-//                    self.filterView.alpha = 1.0
-//                    self.view.layoutIfNeeded()
-//                }, completion: nil)
-//            } else {
-//                filterView.isHidden = true
-//            }
-//        }
-
 }
 
 
@@ -378,12 +324,4 @@ extension MoviesViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
             isSearched = true
         }
     }
-    
-    func searchBarTextDidBeginEditing( _ searchBar: UISearchBar) {
-            historyLabel.isHidden = false
-        }
-
-   func searchBarTextDidEndEditing( _ searchBar: UISearchBar) {
-            historyLabel.isHidden = true
-        }
 }

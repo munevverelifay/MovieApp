@@ -122,6 +122,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         label.numberOfLines = 0
         return label
     }()
+    
     private let desValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +132,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         label.numberOfLines = 0
         return label
     }()
+    
     private let actorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -141,6 +143,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         label.numberOfLines = 0
         return label
     }()
+    
     private let actorValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -150,6 +153,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         label.numberOfLines = 0
         return label
     }()
+    
     private let directorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -160,6 +164,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         label.numberOfLines = 0
         return label
     }()
+    
     private let directorValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -177,6 +182,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadingIndicator.startAnimating()
+        contentView.isHidden = true
         view.backgroundColor = .white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.delegate = self
@@ -189,6 +195,11 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
     func stopLoading() {
         loadingIndicator.stopAnimating()
         loadingIndicator.isHidden = true
+        showContent()
+    }
+    
+    func showContent() {
+        contentView.isHidden = false
     }
     
     func setUpNavigation(){
@@ -225,11 +236,11 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         totalContentHeight += infoStackView.frame.size.height + 20
         totalContentHeight += desLabel.frame.size.height + 8
         totalContentHeight += desValueLabel.frame.size.height + 15
-        totalContentHeight += actorLabel.frame.size.height + 8
-        totalContentHeight += actorValueLabel.frame.size.height + 15
-        totalContentHeight += directorLabel.frame.size.height + 8
-        totalContentHeight += directorValueLabel.frame.size.height + 15
-
+        totalContentHeight += actorLabel.frame.size.height
+        totalContentHeight += actorValueLabel.frame.size.height
+        totalContentHeight += directorLabel.frame.size.height
+        totalContentHeight += directorValueLabel.frame.size.height
+        
         scrollView.contentSize = CGSize(width: contentView.frame.size.width, height: totalContentHeight)
     }
 
@@ -274,10 +285,14 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
     }
     func setUpConstrains() {
         NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
             navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: -(WindowConstant.getTopPadding + 64)),
             navigationView.heightAnchor.constraint(equalToConstant: WindowConstant.getTopPadding + 64),
+            
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -310,7 +325,6 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
             infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             dividerView.topAnchor.constraint(equalTo: moviePosterImageView.bottomAnchor, constant: 10),
-//            dividerView.widthAnchor.constraint(equalToConstant: 1),
             dividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             dividerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             dividerView.heightAnchor.constraint(equalToConstant: 1),
@@ -340,12 +354,18 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
 }
 
 extension DetailViewController: MovieDetailViewModelOutput {
+    func showError(error: CustomError?) {
+        if let error {
+            self.showErrorAlert(for: error)
+        }
+    }
+    
     func updateView(movieDetail: MovieDetailData?) {
         guard let movieDetail = movieDetail else {
             print("Movie Detail nil gelmiş olur buraya error yazılabilir")
             return
         }
-
+        
         DispatchQueue.main.async {
             self.title = movieDetail.title
             if let url = URL(string: movieDetail.poster) {
@@ -364,6 +384,7 @@ extension DetailViewController: MovieDetailViewModelOutput {
             self.directorValueLabel.text = movieDetail.director
             self.adjustScrollViewHeight()
             self.stopLoading()
+            self.showContent()
         }
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
-
+    
     private let viewModel: MoviesViewModel
     private var movies : MoviesData?
     private var originalMoviesArray: [Search?] = []
@@ -168,15 +168,15 @@ class MoviesViewController: UIViewController {
             sortButton.setTitle("Sort", for: .normal)
         }
         switch currentSortEnum {
-         case .sort:
-             moviesArray = sortMovies
-         case .reverseSort:
-             moviesArray = reverseMovies
-         case .sortYear:
-             moviesArray = sortYearsMovies
-         case .reverseSortYear:
-             moviesArray = reverseYearsMovies
-         }
+        case .sort:
+            moviesArray = sortMovies
+        case .reverseSort:
+            moviesArray = reverseMovies
+        case .sortYear:
+            moviesArray = sortYearsMovies
+        case .reverseSortYear:
+            moviesArray = reverseYearsMovies
+        }
         
         moviesCollectionView.reloadData()
         let indexPath = IndexPath(item: 0, section: 0)
@@ -225,6 +225,12 @@ extension MoviesViewController : UICollectionViewDataSource, UICollectionViewDel
 }
 
 extension MoviesViewController : MovieViewModelOutput {
+    func showError(error: CustomError?) {
+        if let error {
+            self.showErrorAlert(for: error)
+        }
+    }
+    
     func updateView(movies: MoviesData?) {
         DispatchQueue.main.async {
             self.errorLabel.isHidden = true
@@ -314,7 +320,7 @@ extension MoviesViewController: UISearchBarDelegate, UISearchControllerDelegate 
             isSearched = true
         }
     }
-
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchText = searchController.searchBar.text ?? ""
         if searchText == "" {

@@ -12,7 +12,6 @@ class MovieCell: UICollectionViewCell {
     
     static let cellIdentifier = String(describing: MovieCell.self)
     
-//    let genreLabels = ["Type 1", "Type 2", "Type 3"]
     var cellData: Search? {
         didSet {
             guard let search = cellData else { return }

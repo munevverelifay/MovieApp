@@ -34,6 +34,7 @@
 		F7CA3EB42AFAEA9C0038CADE /* Merriweather-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7CA3EB32AFAEA990038CADE /* Merriweather-Black.ttf */; };
 		F7CF3C802AFBFF210024A366 /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C7F2AFBFF210024A366 /* StringHelper.swift */; };
 		F7CF3C822AFBFFA30024A366 /* SortTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C812AFBFFA30024A366 /* SortTypes.swift */; };
+		F7CF3C852AFC15120024A366 /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C842AFC15110024A366 /* Extension+UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		F7CA3EB32AFAEA990038CADE /* Merriweather-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Black.ttf"; sourceTree = "<group>"; };
 		F7CF3C7F2AFBFF210024A366 /* StringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
 		F7CF3C812AFBFFA30024A366 /* SortTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTypes.swift; sourceTree = "<group>"; };
+		F7CF3C842AFC15110024A366 /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,8 +139,9 @@
 				F7ADC68C2AF93E1300AF13E4 /* View */,
 				F7ADC68E2AF93E4300AF13E4 /* Service */,
 				F7ADC68B2AF93E0D00AF13E4 /* Model */,
-				F7ADC68F2AF93EA300AF13E4 /* Resource */,
+				F7CF3C832AFC14E60024A366 /* Extensions */,
 				F7ADC6902AF941E700AF13E4 /* Helpers */,
+				F7ADC68F2AF93EA300AF13E4 /* Resource */,
 				F7ADC6A52AF997D800AF13E4 /* Fonts */,
 				F7ADC6712AF93E0800AF13E4 /* MovieAppTests */,
 				F7ADC67B2AF93E0800AF13E4 /* MovieAppUITests */,
@@ -172,7 +175,6 @@
 			children = (
 				F7ADC6912AF94D6900AF13E4 /* MoviesData.swift */,
 				F7CA3EA12AFA7B570038CADE /* MovieDetailData.swift */,
-				F7CA3EA32AFA7BC30038CADE /* CustomError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -210,6 +212,7 @@
 				F7CA3EA52AFA7C4E0038CADE /* Constants.swift */,
 				F7CF3C7F2AFBFF210024A366 /* StringHelper.swift */,
 				F7CF3C812AFBFFA30024A366 /* SortTypes.swift */,
+				F7CA3EA32AFA7BC30038CADE /* CustomError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -266,6 +269,14 @@
 				F7ADC6952AF94F1D00AF13E4 /* MoviesViewModel.swift */,
 			);
 			path = Movies;
+			sourceTree = "<group>";
+		};
+		F7CF3C832AFC14E60024A366 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F7CF3C842AFC15110024A366 /* Extension+UIViewController.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,6 +433,7 @@
 				F7CA3EA02AFA52570038CADE /* GenreView.swift in Sources */,
 				F7ADC6942AF94E9B00AF13E4 /* APIManager.swift in Sources */,
 				F7ADC65C2AF93E0700AF13E4 /* AppDelegate.swift in Sources */,
+				F7CF3C852AFC15120024A366 /* Extension+UIViewController.swift in Sources */,
 				F7CA3E9B2AFA4DD60038CADE /* DetailViewController.swift in Sources */,
 				F7ADC65E2AF93E0700AF13E4 /* SceneDelegate.swift in Sources */,
 				F7ADC69F2AF97B8900AF13E4 /* MoviesViewController.swift in Sources */,

@@ -11,7 +11,6 @@ import XCTest
 final class MovieAppTests: XCTestCase {
     
     private var movieService : MockMoviesService!
-    
     private var moviesViewModel : MoviesViewModel!
     private var movieDetailViewModel : MovieDetailViewModel!
     private var moviesOutput : MockMoviesViewModelOutput!
@@ -28,7 +27,6 @@ final class MovieAppTests: XCTestCase {
         
         movieDetailOutput = MockMovieDetailViewModelOutput()
         movieDetailViewModel.delegate = movieDetailOutput
-        
     }
     
     override func tearDownWithError() throws {
@@ -56,7 +54,6 @@ final class MovieAppTests: XCTestCase {
         let typeEnum : TypeEnum = .movie
         let search = Search(title: "Joker", year: "2023", imdbID: "tt7286456", type: typeEnum, poster: "")
         let mockMovieDetail = MoviesData(search: [search], totalResults: "50", response: "True", error: nil)
-//        MoviesData(search: [], totalResults: nil, response: "False", error: "No movie found")
         movieService.fetchSearcedMoviesMockResult = .success(mockMovieDetail)
         moviesViewModel.fetchSerchedMovies(page: "1", movie: "tt7286456")
         XCTAssertEqual(moviesOutput.moviesSearchArray?.search?.count, 1)
@@ -72,30 +69,44 @@ final class MovieAppTests: XCTestCase {
         
         movieService.fetchMovieDetailsMockResult = .success(mockMovieDetail)
         movieDetailViewModel.fetchMovieDetail(id: "tt4925292")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.count, 1)
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.title,"Lady Bird")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.released,"01 Dec 2017")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.runtime,"94")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.genre,"Comedy, Drama")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.director,"Greta Gerwig")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.actors,"Saoirse Ronan, Laurie Metcalf, Tracy Letts")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.plot,"In 2002, an artistically inclined 17-year-old girl comes of age in Sacramento, California.")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.poster,"")
-        XCTAssertEqual(movieDetailOutput.movieDetailArray.first?.imdbRating,"7.4")
-        
+        if let movieDetail = movieDetailOutput.movieDetailArray {
+            XCTAssertEqual(movieDetail.title.count, 1)
+            XCTAssertEqual(movieDetail.title,"Lady Bird")
+            XCTAssertEqual(movieDetail.released,"01 Dec 2017")
+            XCTAssertEqual(movieDetail.runtime,"94")
+            XCTAssertEqual(movieDetail.genre,"Comedy, Drama")
+            XCTAssertEqual(movieDetail.director,"Greta Gerwig")
+            XCTAssertEqual(movieDetail.actors,"Saoirse Ronan, Laurie Metcalf, Tracy Letts")
+            XCTAssertEqual(movieDetail.plot,"In 2002, an artistically inclined 17-year-old girl comes of age in Sacramento, California.")
+            XCTAssertEqual(movieDetail.poster,"")
+            XCTAssertEqual(movieDetail.imdbRating,"7.4")
+        }
     }
-    func testUpdateView_whenAPIFailure_showsNoMovie() throws {
+    
+    func testSearchedUpdateView_whenAPIFailure_showsNoMovie() throws {
         let serverError = CustomError.serverError
-        movieService.fetchMovieDetailsMockResult = .failure(serverError)
-        movieDetailViewModel.fetchMovieDetail(id: "")
+        movieService.fetchMoviesMockResult = .failure(serverError)
+        moviesViewModel.fetchMovies(page: "")
         XCTAssertEqual(moviesOutput.moviesArray.count, 0)
         XCTAssertEqual(moviesOutput.moviesArray.isEmpty, true)
     }
     
-    func testSearchUpdateView_whenAPIFailure_showsNoMovies() throws {
-
-    }
+    func testMovieDetailUpdateView_whenAPIFailure_showsNoMovies() throws {
+        let serverError = CustomError.serverError
+        
+        movieService.fetchMovieDetailsMockResult = .failure(serverError)
+        movieDetailViewModel.fetchMovieDetail(id: "")
     
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.title, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.released, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.runtime, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.genre, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.director, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.actors, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.plot, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.poster, nil)
+        XCTAssertEqual(movieDetailOutput.movieDetailArray?.imdbRating, nil)
+    }
 }
 
 class MockMoviesService : MoviesService {
@@ -119,7 +130,6 @@ class MockMoviesService : MoviesService {
             completion(result)
         }
     }
- 
 }
 
 class MockMoviesViewModelOutput: MovieViewModelOutput {
@@ -136,11 +146,12 @@ class MockMoviesViewModelOutput: MovieViewModelOutput {
         self.errorMessage = error
     }
 }
-//düzelt
+
 class MockMovieDetailViewModelOutput : MovieDetailViewModelOutput {
-    var movieDetailArray : [(title: String, released: String, poster: String, genre: String, runtime: String, director: String, language: String, plot: String, imdbRating: String, actors: String)] = []
-    
-    func updateView(title: String, released: String, poster: String, genre: String, runtime: String, director: String, language: String, plot: String, imdbRating: String, actors: String) {
-        movieDetailArray.append((title, released, poster, genre, runtime, director, language, plot, imdbRating, actors))
+    var movieDetailArray : MovieDetailData?
+    func updateView(movieDetail: MovieApp.MovieDetailData?) {
+        if (movieDetailArray != nil) {
+            movieDetailArray = movieDetail
+        }
     }
 }

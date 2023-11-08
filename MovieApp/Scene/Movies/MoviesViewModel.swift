@@ -10,13 +10,14 @@ import Foundation
 protocol MovieViewModelOutput {
     func updateView(movies: MoviesData?)
     func updateErrorView(error: String?)
+    func showError(error: CustomError?)
 }
 
 class MoviesViewModel {
 
     private let moviesService : MoviesService
     var delegate : MovieViewModelOutput?
-    
+
     init(moviesService: MoviesService) {
         self.moviesService = moviesService
     }
@@ -26,12 +27,12 @@ class MoviesViewModel {
             switch result {
             case .success(let movies):
                 self.delegate?.updateView(movies: movies)
-            case .failure(_):
-                print("a")
+            case .failure(let error):
+                self.delegate?.showError(error: error)
             }
         }
     }
-    
+
     func fetchSerchedMovies(page: String?, movie: String?) {
         moviesService.fetchSearchedMovies(page: page, movie: movie) { result in
             switch result {
@@ -42,8 +43,8 @@ class MoviesViewModel {
                 } else {
                     self.delegate?.updateView(movies: movies)
                 }
-            case .failure(_):
-                print("b")
+            case .failure(let error):
+                self.delegate?.showError(error: error)
             }
         }
     }

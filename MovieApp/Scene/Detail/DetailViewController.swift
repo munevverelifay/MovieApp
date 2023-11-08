@@ -12,8 +12,10 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
     private var genreViews = [UIView]()
     private var genreLabels : [String] = []
     private var infoLabels = [UILabel]()
+    private var iconImageViews = [UIImageView]()
     private var infoStringArray : [String] = []
     private var totalContentHeight: CGFloat = 0
+    private var infoIconArray : [String] = ["clock", "calendar", "globe"]
     
     private let viewModel: MovieDetailViewModel
     var movieDetail : MovieDetailData?
@@ -96,12 +98,13 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         return stackView
     }()
     
-    private let movieInfoStackView: UIStackView = {
+    private let infoIconStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
-        stackView.spacing = 8
+        stackView.alignment = .fill
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -218,7 +221,8 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
         contentView.addSubview(movieRatingLabel)
         contentView.addSubview(genreStackView)
         contentView.addSubview(infoStackView)
-        contentView.addSubview(movieInfoStackView)
+        contentView.addSubview(infoIconStackView)
+//        contentView.addSubview(movieInfoStackView)
         contentView.addSubview(dividerView)
         contentView.addSubview(desLabel)
         contentView.addSubview(desValueLabel)
@@ -283,6 +287,22 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
             infoStackView.addArrangedSubview(label)
         }
     }
+    
+    func imageViewCreate() {
+        for i in 0...2{
+            let imageView = UIImageView()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.clipsToBounds = true
+            imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = .icon 
+            imageView.widthAnchor.constraint(equalToConstant: 17).isActive = true
+            iconImageViews.append(imageView)
+            imageView.image = UIImage(systemName: infoIconArray[i])
+        }
+        for image in iconImageViews {
+            infoIconStackView.addArrangedSubview(image)
+        }
+    }
     func setUpConstrains() {
         NSLayoutConstraint.activate([
             loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -320,8 +340,11 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
             genreStackView.topAnchor.constraint(equalTo: movieRatingLabel.bottomAnchor, constant: 15),
             genreStackView.leadingAnchor.constraint(equalTo: moviePosterImageView.trailingAnchor, constant: 10),
             
+            infoIconStackView.topAnchor.constraint(equalTo: genreStackView.bottomAnchor, constant: 14),
+            infoIconStackView.leadingAnchor.constraint(equalTo: moviePosterImageView.trailingAnchor, constant: 10),
+            
             infoStackView.topAnchor.constraint(equalTo: genreStackView.bottomAnchor, constant: 15),
-            infoStackView.leadingAnchor.constraint(equalTo: moviePosterImageView.trailingAnchor, constant: 10),
+            infoStackView.leadingAnchor.constraint(equalTo: infoIconStackView.trailingAnchor, constant: 4),
             infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
             dividerView.topAnchor.constraint(equalTo: moviePosterImageView.bottomAnchor, constant: 10),
@@ -379,6 +402,7 @@ extension DetailViewController: MovieDetailViewModelOutput {
             self.infoStringArray.append(movieDetail.released)
             self.infoStringArray.append(movieDetail.language)
             self.labelCreate()
+            self.imageViewCreate()
             self.desValueLabel.text = movieDetail.plot
             self.actorValueLabel.text = movieDetail.actors
             self.directorValueLabel.text = movieDetail.director

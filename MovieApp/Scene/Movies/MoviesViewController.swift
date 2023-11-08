@@ -122,7 +122,7 @@ class MoviesViewController: UIViewController {
             navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: -(WindowConstant.getTopPadding + 91)),
             navigationView.heightAnchor.constraint(equalToConstant: WindowConstant.getTopPadding + 91),
-            moviesCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            moviesCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
             moviesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             moviesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             moviesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),

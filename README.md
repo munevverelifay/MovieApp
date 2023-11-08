@@ -18,6 +18,5 @@
 
 | Main Screen | Details Screen | Details Screen |
 | ----------- | ---------------- | ---------------- |
-| ![Main Screen]![Simulator Screen Recording - Clone 1 of iPhone 15 Pro - 2023-11-08 at 22 26 23](https://github.com/munevverelifay/MovieApp/assets/105984573/801231ab-c6b7-4427-8c78-8f5fb4565a2c)
-() | ![Details Screen](![Simulator Screen Recording - Clone 1 of iPhone 15 Pro - 2023-11-08 at 22 25 37](https://github.com/munevverelifay/MovieApp/assets/105984573/9ff3bc31-aebc-4b69-974c-cc637dc6136d)
+| ![Main Screen]!(https://github.com/munevverelifay/MovieApp/assets/105984573/801231ab-c6b7-4427-8c78-8f5fb4565a2c)| ![Details Screen](https://github.com/munevverelifay/MovieApp/assets/105984573/9ff3bc31-aebc-4b69-974c-cc637dc6136d)
 ) | ![Favourite Screen]()

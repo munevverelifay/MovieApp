@@ -294,7 +294,7 @@ class DetailViewController : UIViewController, UIScrollViewDelegate {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.clipsToBounds = true
             imageView.contentMode = .scaleAspectFit
-            imageView.tintColor = .icon 
+            imageView.tintColor = .icon
             imageView.widthAnchor.constraint(equalToConstant: 17).isActive = true
             iconImageViews.append(imageView)
             imageView.image = UIImage(systemName: infoIconArray[i])

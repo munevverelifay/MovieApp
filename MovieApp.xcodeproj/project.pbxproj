@@ -35,6 +35,7 @@
 		F7CF3C802AFBFF210024A366 /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C7F2AFBFF210024A366 /* StringHelper.swift */; };
 		F7CF3C822AFBFFA30024A366 /* SortTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C812AFBFFA30024A366 /* SortTypes.swift */; };
 		F7CF3C852AFC15120024A366 /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C842AFC15110024A366 /* Extension+UIViewController.swift */; };
+		F7CF3C872AFC41A20024A366 /* MovieInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF3C862AFC41A20024A366 /* MovieInfoLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		F7CF3C7F2AFBFF210024A366 /* StringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
 		F7CF3C812AFBFFA30024A366 /* SortTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTypes.swift; sourceTree = "<group>"; };
 		F7CF3C842AFC15110024A366 /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
+		F7CF3C862AFC41A20024A366 /* MovieInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				F7CA3E9F2AFA52570038CADE /* GenreView.swift */,
+				F7CF3C862AFC41A20024A366 /* MovieInfoLabel.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				F7CA3EA22AFA7B570038CADE /* MovieDetailData.swift in Sources */,
 				F7ADC6962AF94F1D00AF13E4 /* MoviesViewModel.swift in Sources */,
 				F7ADC6A42AF996C800AF13E4 /* AppFonts.swift in Sources */,
+				F7CF3C872AFC41A20024A366 /* MovieInfoLabel.swift in Sources */,
 				F7CF3C802AFBFF210024A366 /* StringHelper.swift in Sources */,
 				F7CA3EA82AFA7D3C0038CADE /* MovieDetailViewModel.swift in Sources */,
 				F7ADC69D2AF975C800AF13E4 /* MovieCell.swift in Sources */,

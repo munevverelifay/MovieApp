@@ -14,5 +14,6 @@ struct AppFonts {
     static let movieTitleBoldFont = UIFont(name: "Mulish-Bold", size: 20)
     static let infoSemiBoldFont = UIFont(name: "Mulish-SemiBold", size: 14)
     static let infoTitleBlackFont = UIFont(name: "Merriweather-Black", size: 18)
+    static let infoBlackFont = UIFont(name: "Merriweather-Black", size: 14)
     
 }

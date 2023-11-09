@@ -133,9 +133,11 @@ class MockMoviesService : MoviesService {
 }
 
 class MockMoviesViewModelOutput: MovieViewModelOutput {
+
     var moviesArray: [Search?] = []
     var moviesSearchArray: MoviesData?
     var errorMessage: String?
+    
 
     func updateView(movies: MoviesData?) {
         self.moviesArray = movies?.search ?? []
@@ -145,6 +147,10 @@ class MockMoviesViewModelOutput: MovieViewModelOutput {
     func updateErrorView(error: String?) {
         self.errorMessage = error
     }
+    
+    func showError(error: CustomError?) {
+       
+    }
 }
 
 class MockMovieDetailViewModelOutput : MovieDetailViewModelOutput {
@@ -153,5 +159,9 @@ class MockMovieDetailViewModelOutput : MovieDetailViewModelOutput {
         if (movieDetailArray != nil) {
             movieDetailArray = movieDetail
         }
+    }
+    
+    func showError(error: MovieApp.CustomError?) {
+    
     }
 }

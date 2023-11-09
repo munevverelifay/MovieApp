@@ -37,3 +37,5 @@ struct MovieDetailData: Codable {
         case response = "Response"
     }
 }
+
+

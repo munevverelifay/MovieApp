@@ -109,7 +109,6 @@ class MoviesViewController: UIViewController {
         title = "MovieApp"
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
-        //
     }
     
     func setUpConstrains() {
@@ -144,7 +143,7 @@ class MoviesViewController: UIViewController {
         searchController.searchBar.searchTextField.leftView?.tintColor = .black
         searchController.searchBar.searchTextField.backgroundColor = .white
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            //burada font vs verebilirsin
+            textfield.font = AppFonts.infoRegularFont
         }
         navigationItem.searchController = searchController
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sortButton)
@@ -185,7 +184,6 @@ class MoviesViewController: UIViewController {
     
 }
 
-
 extension MoviesViewController : UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return moviesArray.count
@@ -216,11 +214,16 @@ extension MoviesViewController : UICollectionViewDataSource, UICollectionViewDel
             if let selectedMovieIMDbID = selectedMovie.imdbID {
                 
                 let moviesService : MoviesService = APIManager()
-                let movieDetailViewModel = MovieDetailViewModel(moviesService: moviesService) //emincan
+                let movieDetailViewModel = MovieDetailViewModel(moviesService: moviesService)
                 let detailViewController = DetailViewController(viewModel: movieDetailViewModel, imdbID: selectedMovieIMDbID)
                 navigationController?.pushViewController(detailViewController, animated: true)
             }
         }
+    }
+}
+extension MoviesViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
 }
 
